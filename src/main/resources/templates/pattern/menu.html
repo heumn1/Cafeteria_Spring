@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+    <div class="position-sticky pt-3">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <h1>Меню</h1>
+            </li>
+            <li class="nav-item">
+                <a class="w-100 btn btn-lg btn-primary" href="/logout">Выйти из аккаунта</a>
+            </li>
+            </br>
+            <li sec:authorize="hasAuthority('ADMIN_ROLE')"  class="nav-item">
+                <a class="w-100 btn btn-lg btn-primary" href="/users">Пользователи</a>
+            </li>
+            </br>
+        </ul>
+    </div>
+</nav>
+</html>

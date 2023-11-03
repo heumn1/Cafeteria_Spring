@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Кафетерий</title>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="/css/index.css" th:href="@{/css/index.css}"/>
+</head>
+<body>
+<div th:insert="~{pattern/header :: header}"/>
+<div class="container-fluid">
+    <ma class="row">
+        <men th:replace="~{pattern/menu :: nav}"/>
+    </ma>
+</div>
+<div th:insert="~{pattern/footer :: footer}"/>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Позиции</title>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="/css/index.css" th:href="@{/css/index.css}"/>
+</head>
+<body>
+<div th:insert="~{pattern/header :: header}"/>
+<div class="container-fluid">
+    <ma class="row">
+        <men th:replace="~{pattern/menu :: nav}"/>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div>
+                <div th:if="${productList}">
+                    <a th:if="${settings == null}" th:href="@{/products/settings}" class="btn btn-primary">Удалить</a>
+                    <a th:href="@{/products/add}" class="btn btn-primary">Добавить</a>
+                    <a th:if="${settings}" th:href="@{/products}" class="btn btn-primary">Вернуться</a>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Фотография</th>
+                            <th scope="col">Название</th>
+                            <th scope="col">Категория</th>
+                            <th scope="col">Описание</th>
+                            <th scope="col">Цена</th>
+                            <th th:if="${settings}" scope="col">Удалить</th>
+                        </tr>
+                        </thead>
+                        <tbody th:each="el : ${productList}">
+                        <tr>
+                            <td>
+                                <img th:src="@{/img/{filename}(filename = ${el.picturePath})}" alt="Изображение">
+                            </td>
+                            <td th:text="${el.productName}"/>
+                            <td th:text="${el.productCategory}"/>
+                            <td th:text="${el.description}"/>
+                            <td th:text="${el.cost}"/>
+                            <td th:if="${settings}">
+                                <form th:method="POST" th:action="@{/products/delete/{id}(id = ${el.id})}">
+                                    <input class="btn btn-primary" type="submit" value="Удалить продукт"/>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </ma>
+</div>
+<div th:insert="~{pattern/footer :: footer}"/>
+</body>
+</html>

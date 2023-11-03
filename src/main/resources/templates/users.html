@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователи</title>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="/css/index.css" th:href="@{/css/index.css}"/>
+</head>
+<body>
+<div th:insert="~{pattern/header :: header}"/>
+    <div class="container-fluid">
+        <ma class="row">
+            <men th:replace="~{pattern/menu :: nav}"/>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div>
+                <div th:if="${users}">
+                    <a th:if="${settings == null}" th:href="@{/users/settings}" class="btn btn-primary">Назначить</a>
+                    <a th:if="${settings}" th:href="@{/users}" class="btn btn-primary">Вернуться</a>
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Имя</th>
+                            <th scope="col">Фамилия</th>
+                            <th scope="col">Отчество</th>
+                            <th scope="col">Роли</th>
+                            <th scope="col">Последний вход</th>
+                            <th scope="col">Дата создания</th>
+                            <th th:if="${settings}" scope="col">Настройка повар</th>
+                            <th th:if="${settings}" scope="col">Настройка продавец</th>
+                            <th th:if="${settings}" scope="col">Настройка администратор</th>
+                            <th th:if="${settings}" scope="col">Настройка менеджер</th>
+                        </tr>
+                        </thead>
+                        <tbody th:each="el : ${users}">
+                        <tr>
+                            <td th:text="${el.name}"/>
+                            <td th:text="${el.lastName}"/>
+                            <td th:text="${el.patronymic}"/>
+                            <td th:text="${el.roles}"/>
+                            <td th:text="${el.lastLogin}"/>
+                            <td th:text="${el.dateCreate}"/>
+                            <td th:if="${settings}">
+                                <form th:if="${!el.roles.contains(roleCook)}" th:method="POST" th:action="@{/users/settings/setrole}">
+                                    <input class="visually-hidden" th:name="id" th:value="${el.id}"/>
+                                    <input class="visually-hidden" th:name="role" th:value="${roleCook}"/>
+                                    <input class="btn btn-primary" type="submit" value="Назначить (Повар)"/>
+                                </form>
+                                <form th:if="${el.roles.contains(roleCook)}" th:method="POST" th:action="@{/users/settings/deleterole}">
+                                    <input class="visually-hidden" th:name="id" th:value="${el.id}"/>
+                                    <input class="visually-hidden" th:name="role" th:value="${roleCook}"/>
+                                    <input class="btn btn-danger" type="submit" value="Удалить (Повар)"/>
+                                </form>
+                            </td>
+                            <td th:if="${settings}">
+                                <form th:if="${!el.roles.contains(roleSeller)}" th:method="POST" th:action="@{/users/settings/setrole}">
+                                    <input class="visually-hidden" th:name="id" th:value="${el.id}"/>
+                                    <input class="visually-hidden" th:name="role" th:value="${roleSeller}"/>
+                                    <input class="btn btn-primary" type="submit" value="Назначить (Продавец)"/>
+                                </form>
+                                <form th:if="${el.roles.contains(roleSeller)}" th:method="POST" th:action="@{/users/settings/deleterole}">
+                                    <input class="visually-hidden" th:name="id" th:value="${el.id}"/>
+                                    <input class="visually-hidden" th:name="role" th:value="${roleSeller}"/>
+                                    <input class="btn btn-danger" type="submit" value="Удалить (Продавец)"/>
+                                </form>
+                            </td>
+                            <td th:if="${settings}">
+                                <form th:if="${!el.roles.contains(roleAdmin)}" th:method="POST" th:action="@{/users/settings/setrole}">
+                                    <input class="visually-hidden" th:name="id" th:value="${el.id}"/>
+                                    <input class="visually-hidden" th:name="role" th:value="${roleAdmin}"/>
+                                    <input class="btn btn-primary" type="submit" value="Назначить (Администратор)"/>
+                                </form>
+                                <form th:if="${el.roles.contains(roleAdmin)}" th:method="POST" th:action="@{/users/settings/deleterole}">
+                                    <input class="visually-hidden" th:name="id" th:value="${el.id}"/>
+                                    <input class="visually-hidden" th:name="role" th:value="${roleAdmin}"/>
+                                    <input class="btn btn-danger" type="submit" value="Удалить (Администратор)"/>
+                                </form>
+                            </td>
+                            <td th:if="${settings}">
+                                <form th:if="${!el.roles.contains(roleManager)}" th:method="POST" th:action="@{/users/settings/setrole}">
+                                    <input class="visually-hidden" th:name="id" th:value="${el.id}"/>
+                                    <input class="visually-hidden" th:name="role" th:value="${roleManager}"/>
+                                    <input class="btn btn-primary" type="submit" value="Назначить (Менеджер)"/>
+                                </form>
+                                <form th:if="${el.roles.contains(roleManager)}" th:method="POST" th:action="@{/users/settings/deleterole}">
+                                    <input class="visually-hidden" th:name="id" th:value="${el.id}"/>
+                                    <input class="visually-hidden" th:name="role" th:value="${roleManager}"/>
+                                    <input class="btn btn-danger" type="submit" value="Удалить (Менеджер)"/>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </ma>
+</div>
+<div th:insert="~{pattern/footer :: footer}"/>
+</body>
+</html>

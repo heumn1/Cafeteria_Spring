@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<main>
+  <div class="py-5 text-center">
+    <h2>Система кассы (Поменять название)</h2>
+  </div>
+  <div class="row g-5">
+    <div class="col-md-5 col-lg-4 order-md-last">
+      <h4 class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-primary">Всего к оплате</span>
+      </h4>
+      <ul class="list-group mb-3">
+        <li class="list-group-item d-flex justify-content-between lh-sm">
+          <div>
+            <h6 class="my-0">Product name</h6>
+            <small class="text-muted">Brief description</small>
+          </div>
+          <span class="text-muted">$12</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Total (USD)</span>
+          <strong>$20</strong>
+        </li>
+        <button class="w-100 btn btn-primary btn-lg" type="submit">Посчитать</button></ul>
+    </div>
+    <div class="col-md-7 col-lg-8">
+      <h4 class="mb-3">Товары:</h4>
+      <form class="needs-validation" novalidate="">
+        <hr class="my-4">
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="same-address">
+          <label class="form-check-label" for="same-address">Shipping address is the same as my billing address</label>
+        </div>
+        <hr class="my-4">
+        <h4 class="mb-3">Способ оплаты</h4>
+        <div class="my-3">
+          <div class="form-check">
+            <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked="" required="">
+            <label class="form-check-label" for="credit">Credit card</label>
+          </div>
+          <div class="form-check">
+            <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required="">
+            <label class="form-check-label" for="debit">Debit card</label>
+          </div>
+        </div>
+        <hr class="my-4">
+        <button class="w-100 btn btn-primary btn-lg" type="submit">Оплата</button>
+      </form>
+    </div>
+  </div>
+</main>
+</body>
+</html>
