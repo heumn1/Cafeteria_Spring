@@ -1,19 +1,21 @@
 package ru.heumn.Cafeteria.controllers;
 
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.heumn.Cafeteria.dto.ProductDto;
 import ru.heumn.Cafeteria.services.ProductService;
+import ru.heumn.Cafeteria.storage.ProductCategory;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -45,10 +47,30 @@ public class ProductController {
         return "products";
     }
 
-    @PostMapping("/add")
-    public String addProduct(ProductDto productDto, MultipartFile multipartFile){
+    @GetMapping("/add")
+    public String addProductGet(@ModelAttribute("product") ProductDto productDto, Model model){
 
-        productService.addProduct(productDto,multipartFile);
+        List<ProductCategory> categories = List.of(ProductCategory.values());
+
+
+
+        model.addAttribute("categories", categories);
+
+        return "addproduct";
+    }
+
+    @PostMapping("/add")
+    public String addProductPost(@ModelAttribute("product") @Valid ProductDto productDto,
+                                 BindingResult bindingResult, @RequestParam MultipartFile picture, Model model){
+
+        if(bindingResult.hasErrors())
+        {
+            List<ProductCategory> categories = List.of(ProductCategory.values());
+            model.addAttribute("categories", categories);
+            return "addproduct";
+        }
+
+        productService.addProduct(productDto, picture);
 
         return "redirect:/product";
     }

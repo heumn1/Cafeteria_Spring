@@ -40,12 +40,19 @@ public class ProductService {
 
         ProductEntity product = productDtoFactory.makeProductEntity(productDto);
 
-        String filename = UUID.randomUUID().toString();
-        filename = filename + "." + file.getOriginalFilename();
-
         try {
-            file.transferTo(new File(path + "/" + filename));
-            product.setPicturePath(path + "/" + filename);
+            if (!file.isEmpty()) {
+                File uploadDir = new File(path);
+                if (!uploadDir.exists()) {
+                    uploadDir.mkdir();
+                }
+
+                String uuidFile = UUID.randomUUID().toString();
+                String resultFilename = uuidFile + "." + file.getOriginalFilename();
+
+                file.transferTo(new File(path + "/" + resultFilename));
+                product.setPicturePath(resultFilename);
+            }
         } catch (IOException e) {
             product.setPicturePath(null);
         }

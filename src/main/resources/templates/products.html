@@ -32,7 +32,7 @@
                         <tbody th:each="el : ${productList}">
                         <tr>
                             <td>
-                                <img th:src="@{/img/{filename}(filename = ${el.picturePath})}" alt="Изображение">
+                                <img th:src="@{/img/{filename}(filename = ${el.picturePath})}" alt="Изображение" width="40%" height="20%">
                             </td>
                             <td th:text="${el.productName}"/>
                             <td th:text="${el.productCategory}"/>
@@ -40,7 +40,7 @@
                             <td th:text="${el.cost}"/>
                             <td th:if="${settings}">
                                 <form th:method="POST" th:action="@{/products/delete/{id}(id = ${el.id})}">
-                                    <input class="btn btn-primary" type="submit" value="Удалить продукт"/>
+                                    <input class="btn btn-primary" type="submit" value="Удалить"/>
                                 </form>
                             </td>
                         </tr>

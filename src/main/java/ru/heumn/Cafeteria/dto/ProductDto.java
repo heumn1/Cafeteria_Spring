@@ -22,11 +22,10 @@ public class ProductDto {
     Long id;
 
     @NotEmpty(message = "Ошибка! Поле не должно быть пустым")
-    @NotNull
+    @NotNull(message = "Ошибка! Поле не должно быть пустым")
     @Size(min = 2, max = 40, message = "Название не должно быть меньше 2 символов и больше 40")
     String productName;
 
-    @NotEmpty(message = "Ошибка! Поле не должно быть пустым")
     @NotNull
     @Min(value = 10, message = "цена не должна быть ниже 10 рублей")
     Integer cost;
@@ -35,7 +34,6 @@ public class ProductDto {
 
     String picturePath;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     ProductCategory productCategory;
 }
