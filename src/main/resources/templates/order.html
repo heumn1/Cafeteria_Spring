@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Заказ</title>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="/css/index.css" th:href="@{/css/index.css}"/>
+</head>
+<body>
+<div th:insert="~{pattern/header :: header}"/>
+<div class="container-fluid">
+    <ma class="row">
+        <men th:replace="~{pattern/menu :: nav}"/>
+        <main th:if="${addOrder}" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <form th:object="${order}" th:method="POST" class="form-group">
+                <h1>Заказ клиента</h1>
+                <H1 class="alert" style="color: red" th:if="${productsError}" th:text="${productsError}"></H1>
+                <H1 class="alert" style="color: red" th:if="${priceError}" th:text="${priceError}"></H1>
+                <h2>Напитки</h2>
+                <div th:each="el : ${HOT_DRINKS}">
+                    <input class="form-check-input" type="checkbox" th:field="*{products}" th:value="${el.id}"/>
+                    <label th:text="${el.productName}"/>
+                </div>
+
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Добавить</button>
+            </form>
+        </main>
+
+        <main th:if="${confirmOrder}" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <form th:method="POST" class="form-group" th:action="@{/order/add/confirm/{id}(id = ${confirmOrder.id})}">
+                <div class="modal-body">
+                    <div class="px-4 py-5">
+                        <h1>заказ:</h1>
+                        <div class="mb-3">
+                            <hr class="new1">
+                        </div>
+                        <div class="d-flex justify-content-between" th:each="el : ${confirmOrder.getProducts()}">
+                            <h4 th:text="${el.productName}"></h4>
+                            <h4 th:text="${el.cost}"></h4>
+                        </div>
+                        <div class="d-flex justify-content-between mt-3">
+                            <h1 class="font-weight-bold">Всего</h1>
+                            <h1 class="font-weight-bold theme-color" th:text="${confirmOrder.price}"/>
+                        </div>
+
+                        <div class="d-block my-3">
+                            <div class="custom-control custom-radio" th:each="asd : ${paymentMethods}" >
+                                <input id="payment" name="payment" th:value="${asd.name()}" type="radio" class="custom-control-input" checked="" required="">
+                                <label class="custom-control-label" th:text="${asd.toString()}" for="payment"></label>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-5">
+                            <button class="btn btn-primary btn-lg btn-block" type="submit">Подтверждение оплаты</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <form th:method="POST" th:action="@{/order/add/delete/{id}(id = ${confirmOrder.id})}">
+                <p><button class="link-opacity-100" type="submit">Отменить</button></p>
+            </form>
+        </main>
+    </ma>
+</div>
+<div th:insert="~{pattern/footer :: footer}"/>
+</body>
+</html>

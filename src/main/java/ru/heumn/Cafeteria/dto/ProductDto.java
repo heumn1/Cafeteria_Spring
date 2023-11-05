@@ -28,7 +28,7 @@ public class ProductDto {
 
     @NotNull
     @Min(value = 10, message = "цена не должна быть ниже 10 рублей")
-    Integer cost;
+    Double cost;
 
     String description;
 

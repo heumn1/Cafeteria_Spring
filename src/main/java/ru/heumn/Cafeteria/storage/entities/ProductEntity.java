@@ -25,7 +25,7 @@ public class ProductEntity {
     String productName;
 
     @Column(name = "product_cost")
-    Integer cost;
+    Double cost;
 
     @Column(name = "product_description")
     String description;

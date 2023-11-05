@@ -5,14 +5,13 @@ import ru.heumn.Cafeteria.dto.OrderDto;
 import ru.heumn.Cafeteria.storage.entities.OrderEntity;
 
 @Component
-public class OrderFactory {
+public class OrderDtoFactory {
 
     public OrderDto makeDtoOrder(OrderEntity orderEntity){
         return OrderDto.builder()
                 .id(orderEntity.getId())
                 .products(orderEntity.getProducts())
                 .dateCreate(orderEntity.getDateCreate())
-                .seller(orderEntity.getSeller())
                 .paymentMethod(orderEntity.getPaymentMethod())
                 .price(orderEntity.getPrice())
                 .build();

@@ -5,11 +5,13 @@ import org.springframework.stereotype.Component;
 import ru.heumn.Cafeteria.dto.ProductDto;
 import ru.heumn.Cafeteria.storage.entities.ProductEntity;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class ProductDtoFactory {
 
-    public ProductDto makeDtoProduct(ProductEntity productEntity)
-    {
+    public ProductDto makeDtoProduct(ProductEntity productEntity) {
         return ProductDto.builder()
                 .id(productEntity.getId())
                 .productName(productEntity.getProductName())
@@ -20,8 +22,7 @@ public class ProductDtoFactory {
                 .build();
     }
 
-    public ProductEntity makeProductEntity(ProductDto productDto)
-    {
+    public ProductEntity makeProductEntity(ProductDto productDto) {
         return ProductEntity.builder()
                 .id(productDto.getId())
                 .productName(productDto.getProductName())
@@ -31,4 +32,13 @@ public class ProductDtoFactory {
                 .productCategory(productDto.getProductCategory())
                 .build();
     }
+
+    public List<ProductDto> makeProductDtoList(List<ProductEntity> productEntities) {
+
+        return productEntities.stream()
+                .map(productEntity -> makeDtoProduct(productEntity))
+                .collect(Collectors.toList());
+
+    }
+
 }

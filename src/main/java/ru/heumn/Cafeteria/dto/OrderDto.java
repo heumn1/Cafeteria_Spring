@@ -1,6 +1,7 @@
 package ru.heumn.Cafeteria.dto;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -24,16 +25,13 @@ public class OrderDto {
 
     Long id;
 
-    @NotNull
     Instant dateCreate;
 
-    @NotNull
+    @NotNull(message = "Нужно выбрать как минимум один товар!")
     List<ProductEntity> products;
 
-    @NotNull
     UserEntity seller;
 
-    @NotNull
     Double price;
 
     @Enumerated(EnumType.STRING)
