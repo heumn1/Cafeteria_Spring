@@ -29,6 +29,7 @@
                             </select>
                         </div>
                     </div>
+                    <div class="form-label" style="color:red"  th:if="${errorPicture}" th:text="${errorPicture}"></div>
                     <label class="form-label" for="formFileLg">Фотография:</label>
                     <input type="file" class="form-control form-control-lg" id="formFileLg" name="picture" accept="image/*"/><br/>
                     <button class="btn btn-primary btn-lg btn-block" type="submit">Добавить</button>

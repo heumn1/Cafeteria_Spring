@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -61,10 +62,12 @@ public class ProductController {
 
     @PostMapping("/add")
     public String addProductPost(@ModelAttribute("product") @Valid ProductDto productDto,
-                                 BindingResult bindingResult, @RequestParam MultipartFile picture, Model model){
+                                 BindingResult bindingResult, @RequestParam(required = true) MultipartFile picture, Model model){
 
-        if(bindingResult.hasErrors())
+        if(bindingResult.hasErrors() || picture.isEmpty())
         {
+            model.addAttribute("errorPicture", "Ошибка, необходимо выбрать картинку");
+
             List<ProductCategory> categories = List.of(ProductCategory.values());
             model.addAttribute("categories", categories);
             return "addproduct";
@@ -76,9 +79,17 @@ public class ProductController {
     }
 
     @PostMapping("/delete/{id}")
-    public String addProduct(@PathVariable("id") Long id){
+    public String addProduct(@PathVariable("id") Long id, Model model){
 
-        productService.deleteProduct(id);
+        try {
+            productService.deleteProduct(id);
+        }
+        catch (Exception e)
+        {
+            List<ProductCategory> categories = List.of(ProductCategory.values());
+            model.addAttribute("categories", categories);
+            return "product";
+        }
 
         return "redirect:/product";
     }

@@ -33,6 +33,9 @@ public class ProductEntity {
     @Column(name = "product_picture_path")
     String picturePath;
 
+    @Column(name = "product_active")
+    Boolean active;
+
     @Column(name = "product_category")
     @Enumerated(EnumType.STRING)
     ProductCategory productCategory;

@@ -15,6 +15,18 @@
                 <a class="w-100 btn btn-lg btn-primary" href="/users">Пользователи</a>
             </li>
             </br>
+            <li sec:authorize="hasAuthority('ADMIN_ROLE')"  class="nav-item">
+                <a class="w-100 btn btn-lg btn-primary" href="/users">Посмотреть все заказы?</a>
+            </li>
+            </br>
+            <li sec:authorize="hasAuthority('ADMIN_ROLE')"  class="nav-item">
+                <a class="w-100 btn btn-lg btn-primary" href="/product">Список продуктов</a>
+            </li>
+            </br>
+            <li sec:authorize="hasAuthority('SELLER_ROLE')"  class="nav-item">
+                <a class="w-100 btn btn-lg btn-primary" href="/order/add">Оформить заказ</a>
+            </li>
+            </br>
         </ul>
     </div>
 </nav>

@@ -11,6 +11,7 @@ import ru.heumn.Cafeteria.storage.Role;
 import ru.heumn.Cafeteria.storage.entities.UserEntity;
 import ru.heumn.Cafeteria.storage.repository.UserRepository;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,11 +30,17 @@ public class UserService implements UserDetailsService {
         return userRepository.findByLogin(name);
     }
 
-    public Boolean addUser(UserEntity user){
-        if(user.equals(userRepository.findByLogin(user.getLogin()))){
+    public Boolean addUser(UserDto userDto){
+
+        UserEntity user = userDtoFactory.makeUserEntity(userDto);
+
+        if(userRepository.findByLogin(user.getLogin()) != null){
             return false;
         }
         else {
+            user.setActive(true);
+            user.setDateCreate(Instant.now());
+
             userRepository.save(user);
         }
         return true;

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -57,6 +58,8 @@ public class ProductService {
             product.setPicturePath(null);
         }
 
+        product.setActive(true);
+
         productRepository.save(product);
     }
 
@@ -65,24 +68,28 @@ public class ProductService {
         Optional<ProductEntity> productEntity = productRepository.findById(id);
 
         if(productEntity.isPresent()) {
-
             try {
+
                 if (productEntity.get().getPicturePath() != null) {
-                    Files.delete(Path.of(productEntity.get().getPicturePath()));
+                    Files.delete(Path.of(path + "\\" + productEntity.get().getPicturePath()));
                 }
 
-            } catch (Exception ignore) {
+            } catch (Exception e) {
             }
-
-            productRepository.delete(productEntity.get());
+            productEntity.get().setActive(false);
+            productEntity.get().setPicturePath(null);
+            productRepository.save(productEntity.get());
         }
     }
 
     public List<ProductDto> getListProduct(){
 
         List<ProductDto> productDtoList = new ArrayList<>();
-        productRepository.findAll()
-                .forEach(productEntity -> productDtoList.add(productDtoFactory.makeDtoProduct(productEntity)));
+
+        productRepository.findAll().stream()
+                .filter(productEntity -> (productEntity.getActive() == true))
+                .forEach(product -> productDtoList.add(productDtoFactory.makeDtoProduct(product)));
+
 
         return productDtoList;
     }

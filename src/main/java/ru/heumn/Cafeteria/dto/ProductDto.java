@@ -26,9 +26,12 @@ public class ProductDto {
     @Size(min = 2, max = 40, message = "Название не должно быть меньше 2 символов и больше 40")
     String productName;
 
-    @NotNull
-    @Min(value = 10, message = "цена не должна быть ниже 10 рублей")
+    @NotNull(message = "Поле цена не заполнено")
+    @Min(value = 10, message = "Цена не должна быть ниже 10 рублей")
     Double cost;
+
+    @Builder.Default
+    Boolean active = false;
 
     String description;
 

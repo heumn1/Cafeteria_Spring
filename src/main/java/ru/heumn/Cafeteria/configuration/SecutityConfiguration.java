@@ -30,7 +30,7 @@ public class SecutityConfiguration {
         http
                 .csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
-                                .requestMatchers("/css/*", "/login")
+                                .requestMatchers("/css/*", "/images/**", "/login")
 
                                 .permitAll()
                                 .anyRequest().authenticated()

@@ -2,6 +2,7 @@ package ru.heumn.Cafeteria.controllers;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/order")
+@PreAuthorize("hasAuthority('SELLER_ROLE')")
 public class OrderController {
 
     @Autowired
@@ -80,11 +82,11 @@ public class OrderController {
     private void products(Model model) {
         model.addAttribute("addOrder", "Добавление заказа");
 
-        model.addAttribute("SOUPS",  productDtoFactory.makeProductDtoList(productRepository.findByProductCategory(ProductCategory.SOUPS)));
-        model.addAttribute("SALADS", productDtoFactory.makeProductDtoList(productRepository.findByProductCategory(ProductCategory.SALADS)));
-        model.addAttribute("HOT_DRINKS", productDtoFactory.makeProductDtoList(productRepository.findByProductCategory(ProductCategory.HOT_DRINKS)));
-        model.addAttribute("MAIN_DISHES", productDtoFactory.makeProductDtoList(productRepository.findByProductCategory(ProductCategory.MAIN_DISHES)));
-        model.addAttribute("DESSERTS", productDtoFactory.makeProductDtoList(productRepository.findByProductCategory(ProductCategory.DESSERTS)));
+        model.addAttribute("SOUPS",  productDtoFactory.makeProductDtoList(productRepository.findByProductCategoryAndActiveIsTrue(ProductCategory.SOUPS)));
+        model.addAttribute("SALADS", productDtoFactory.makeProductDtoList(productRepository.findByProductCategoryAndActiveIsTrue(ProductCategory.SALADS)));
+        model.addAttribute("HOT_DRINKS", productDtoFactory.makeProductDtoList(productRepository.findByProductCategoryAndActiveIsTrue(ProductCategory.HOT_DRINKS)));
+        model.addAttribute("MAIN_DISHES", productDtoFactory.makeProductDtoList(productRepository.findByProductCategoryAndActiveIsTrue(ProductCategory.MAIN_DISHES)));
+        model.addAttribute("DESSERTS", productDtoFactory.makeProductDtoList(productRepository.findByProductCategoryAndActiveIsTrue(ProductCategory.DESSERTS)));
     }
 
     @GetMapping("/add/confirm/{id}")

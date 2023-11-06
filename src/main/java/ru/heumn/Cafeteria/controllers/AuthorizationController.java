@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/login")
 public class AuthorizationController {
-    // сюда логин и регистрация!
 
     @GetMapping()
     public String login(@RequestParam(required = false) String error, Model model) {

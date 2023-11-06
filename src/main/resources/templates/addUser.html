@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавление пользователя</title>
+    <link rel="stylesheet" type="text/css" media="all"
+    href="/css/index.css" th:href="@{/css/index.css}"/>
+</head>
+<body>
+<div th:insert="~{pattern/header :: header}"/>
+<div class="container-fluid">
+    <ma class="row">
+        <men th:replace="~{pattern/menu :: nav}"/>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <form th:object="${user}" th:method="POST" class="form-group" th:action="@{/users/add}">
+                <h2>Добавление пользователя</h2>
+                <H1 class="form-label" style="color:red" th:if="${errorUserExists}" th:text="${errorUserExists}"/>
+
+                <div class="form-label" style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                <label class="col-md-4 control-label">Имя</label>
+                <input class="form-control" type="text" th:field="*{name}">
+
+                <div class="form-label" style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+                <label class="col-md-4 control-label">Фамилия</label>
+                <input class="form-control" type="text" th:field="*{lastName}">
+
+                <div class="form-label" style="color:red" th:if="${#fields.hasErrors('patronymic')}" th:errors="*{patronymic}"></div>
+                <label class="col-md-4 control-label">Отчество</label>
+                <input class="form-control" type="text" th:field="*{patronymic}">
+
+                <div class="form-label" style="color:red" th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></div>
+                <label class="col-md-4 control-label">Логин</label>
+                <input class="form-control" type="text" th:field="*{login}">
+
+                <div class="form-label" style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                <label class="col-md-4 control-label">Пароль</label>
+                <input class="form-control" type="text" th:field="*{password}">
+
+                <div class="text-center mt-5">
+                    <button class="btn btn-primary btn-lg btn-block" type="submit">Добавить</button>
+                </div>
+            </form>
+        </main>
+    </ma>
+</div>
+<div th:insert="~{pattern/footer :: footer}"/>
+</body>
+</html>

@@ -7,5 +7,5 @@ import ru.heumn.Cafeteria.storage.entities.ProductEntity;
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
-    List<ProductEntity> findByProductCategory(ProductCategory productCategory);
+    List<ProductEntity> findByProductCategoryAndActiveIsTrue(ProductCategory productCategory);
 }
