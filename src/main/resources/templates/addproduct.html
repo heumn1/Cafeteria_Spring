@@ -15,13 +15,13 @@
                 <form th:object="${product}" th:method="POST" class="form-group" enctype="multipart/form-data">
                     <h2>Добавление продукта</h2>
                     <div class="form-label" style="color:red" th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}"></div>
-                    <label class="col-md-4 control-label" for="name">Название</label>
-                    <input id="name" class="form-control" type="text" th:field="*{productName}">
-                    <label for="Textarea" class="form-label">Описание</label>
-                    <textarea class="form-control" id="Textarea" rows="3" th:field="*{description}"></textarea>
+                    <label class="col-md-4 control-label">Название</label>
+                    <input class="form-control" type="text" th:field="*{productName}">
+                    <label class="form-label">Описание</label>
+                    <textarea class="form-control" rows="3" th:field="*{description}"></textarea>
                     <div class="form-label" style="color:red"  th:if="${#fields.hasErrors('cost')}" th:errors="*{cost}"></div>
-                    <label class="col-md-4 control-label" for="cost">Цена</label>
-                    <input id="cost" class="form-control" type="text" th:field="*{cost}">
+                    <label class="col-md-4 control-label">Цена</label>
+                    <input class="form-control" type="text" th:field="*{cost}">
                     <div class="d-block my-3">
                         <div>
                             <select th:field="*{productCategory}" >
@@ -30,8 +30,8 @@
                         </div>
                     </div>
                     <div class="form-label" style="color:red"  th:if="${errorPicture}" th:text="${errorPicture}"></div>
-                    <label class="form-label" for="formFileLg">Фотография:</label>
-                    <input type="file" class="form-control form-control-lg" id="formFileLg" name="picture" accept="image/*"/><br/>
+                    <label class="form-label">Фотография:</label>
+                    <input type="file" class="form-control form-control-lg" name="picture" accept="image/*"/><br/>
                     <button class="btn btn-primary btn-lg btn-block" type="submit">Добавить</button>
                 </form>
             </main>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<div>
+    <canvas id="myChart"></canvas>
+</div>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script th:inline="javascript">
+    const ctx = document.getElementById('myChart');
+
+    var categories = [[${categories}]];
+
+    console.log(categories)
+
+    var counts = [[${counts}]];
+
+    let colors = [];
+    let size = categories.length;
+    for(let i = 0; i < size; i++){
+        if (i % 3 === 1) {
+            colors.push("red");
+        } else if (i % 3 === 2) {
+            colors.push("blue");
+        } else {
+            colors.push("green");
+        }
+    }
+    console.log(colors);
+
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Продажи',
+                data: counts,
+                backgroundColor: colors,
+                borderWidth: 3
+            }]
+        },
+        options: {}
+    });
+</script>
+</body>
+</html>

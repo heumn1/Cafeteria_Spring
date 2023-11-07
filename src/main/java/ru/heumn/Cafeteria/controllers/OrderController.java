@@ -20,8 +20,8 @@ import ru.heumn.Cafeteria.storage.repository.UserRepository;
 
 import java.security.Principal;
 import java.time.Instant;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/order")
@@ -45,6 +45,50 @@ public class OrderController {
 
     @Autowired
     ProductDtoFactory productDtoFactory;
+
+
+    @GetMapping("/statistic")
+    public String statistic(Model model){
+
+        List<String> categories;
+
+        categories = Arrays.stream(ProductCategory.values()).map(productCategory -> productCategory.toString()).collect(Collectors.toList());
+
+        Map<ProductCategory, Integer> counts = new HashMap<>();
+
+        List<OrderEntity> orderEntities = orderRepository.findAll();
+
+        orderEntities.stream()
+                .forEach(orderEntity -> {
+                    orderEntity.getProducts().stream()
+                            .forEach(product -> {
+                                Integer i = counts.get(product.getProductCategory());
+                                if(i == null)
+                                {
+                                    i = 1;
+                                }
+                                else
+                                {
+                                    i++;
+                                }
+                                counts.put(product.getProductCategory(), i);
+
+                            });
+                        });
+
+        //TODO ВЫВОДИТ ЛИШНИЙ СТОЛБИК ДУМАЮ МОЖНО ВЫВЕСТИ ЕМУ ОТДЕЛЬЕЫЙ ЛИСТ С ЧИСЛАМИ И ОК
+        List<Integer> list = new ArrayList<Integer>(counts.values());
+        for (Integer s : list) {
+            System.out.println(s);
+        }
+
+
+        model.addAttribute("categories", categories);
+        model.addAttribute("counts", counts);
+
+        return "statistic";
+    }
+
 
     @GetMapping("/add")
     public String order(@ModelAttribute("order") OrderDto orderDto, Model model){

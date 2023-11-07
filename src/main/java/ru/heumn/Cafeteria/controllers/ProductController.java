@@ -18,6 +18,7 @@ import ru.heumn.Cafeteria.storage.ProductCategory;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
