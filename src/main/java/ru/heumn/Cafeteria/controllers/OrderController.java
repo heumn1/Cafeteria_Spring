@@ -176,19 +176,11 @@ public class OrderController {
     @PreAuthorize("hasAuthority('SELLER_ROLE')")
     public String confirmOrder(@RequestParam("payment") PaymentMethod paymentMethod, @PathVariable Long id, Principal principal){
 
-        Optional<OrderEntity> orderEntity =  orderRepository.findById(id);
-
-        if(orderEntity.isPresent())
+        if(orderService.acceptOrder(id,paymentMethod,principal.getName()))
         {
-            if(orderEntity.get().getSeller() == userRepository.findByLogin(principal.getName())
-                    || userRepository.findByLogin(principal.getName()).getRoles().contains(Role.ADMIN_ROLE))
-            {
-                orderEntity.get().setStatus(StatusOrder.ACCEPTED);
-
-                orderEntity.get().setPaymentMethod(paymentMethod);
-                orderRepository.save(orderEntity.get());
-            }
+            return "redirect:/order/add";
         }
+
         return "redirect:/order/add";
     }
 

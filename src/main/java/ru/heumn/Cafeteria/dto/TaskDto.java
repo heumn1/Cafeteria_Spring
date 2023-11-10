@@ -1,27 +1,25 @@
-package ru.heumn.Cafeteria.storage;
+package ru.heumn.Cafeteria.dto;
 
-import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import ru.heumn.Cafeteria.storage.StatusOrder;
 import ru.heumn.Cafeteria.storage.entities.ProductEntity;
 
-import java.util.HashMap;
 import java.util.Map;
 
-@Entity
 @Data
-@Getter
-@Setter
-@Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@Getter
+@Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class TestEntity {
+public class TaskDto {
 
-    @ElementCollection
-    Map<ProductEntity, Boolean> products = new HashMap<>();
-
-    @Id
     Long id;
+
+    Integer numberOrder;
+
+    Map<ProductEntity, StatusOrder> products;
 }

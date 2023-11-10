@@ -3,30 +3,37 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
     <div class="position-sticky pt-3">
-        <ul class="nav flex-column">
+        <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
                 <h1>Меню</h1>
             </li>
             <li class="nav-item">
-                <a class="w-100 btn btn-lg btn-primary" href="/logout">Выйти из аккаунта</a>
+                <a class="nav-link active" href="/logout"><img width="40" height="40" th:src="@{/images/person-dash.svg}"/> Выйти из аккаунта</a>
             </li>
             </br>
             <li sec:authorize="hasAuthority('ADMIN_ROLE')"  class="nav-item">
-                <a class="w-100 btn btn-lg btn-primary" href="/users">Пользователи</a>
+                <a class="nav-link active" href="/users"><img width="40" height="40" th:src="@{/images/people-fill.svg}"/>Пользователи</a>
             </li>
             </br>
             <li sec:authorize="hasAuthority('ADMIN_ROLE')"  class="nav-item">
-                <a class="w-100 btn btn-lg btn-primary" href="/order/statistic">Статистика по продажам</a>
+                <a class="nav-link active" href="/order/statistic"><img style="color : red;" width="40" height="40" th:src="@{/images/graph-up-arrow.svg}"/>Статистика по продажам</a>
             </li>
             </br>
             <li sec:authorize="hasAuthority('ADMIN_ROLE')"  class="nav-item">
-                <a class="w-100 btn btn-lg btn-primary" href="/product">Список продуктов</a>
+                <a class="nav-link active" href="/product"><img width="40" height="40" th:src="@{/images/boxes.svg}"/>Список продуктов</a>
             </li>
             </br>
             <li sec:authorize="hasAuthority('SELLER_ROLE')"  class="nav-item">
-                <a class="w-100 btn btn-lg btn-primary" href="/order/add">Оформить заказ</a>
+                <a class="nav-link active" href="/order/add"><img width="40" height="40" th:src="@{/images/cash-coin.svg}"/>Оформить заказ</a>
             </li>
             </br>
+            <li sec:authorize="hasAuthority('COOK_ROLE')"  class="nav-item">
+                <a class="nav-link active" href="/cook/orders"><img width="40" height="40" th:src="@{/images/basket.svg}"/>Начать готовку</a>
+            </li>
+            </br>
+            <li sec:authorize="hasAuthority('SELLER_ROLE')"  class="nav-item">
+                <a class="nav-link active" href="/order/delivery"><img width="40" height="40" th:src="@{/images/card-checklist.svg}"/>Выдача заказов</a>
+            </li>
         </ul>
     </div>
 </nav>
