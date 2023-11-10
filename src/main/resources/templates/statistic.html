@@ -2,32 +2,40 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Статистика</title>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="/css/index.css" th:href="@{/css/index.css}"/>
 </head>
 <body>
-
-
-<div>
-    <canvas id="myChart"></canvas>
+<div th:insert="~{pattern/header :: header}"/>
+<div class="container-fluid">
+    <ma class="row">
+        <men th:replace="~{pattern/menu :: nav}"/>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <section class="container-fluid">
+                <section class="row justify-content-center">
+                    <section class="col-20 col-sm-10 col-md-10">
+                        <canvas style="margin-bottom:200px;" id="myChart"></canvas>
+                        <canvas style="margin-bottom:200px;" id="salesChart"></canvas>
+                    </section>
+                </section>
+            </section>
+        </main>
+    </ma>
 </div>
-
-
-
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script th:inline="javascript">
     const ctx = document.getElementById('myChart');
+    const sc = document.getElementById('salesChart');
 
+    var sales = [[${sales}]];
     var categories = [[${categories}]];
-
-    console.log(categories)
-
     var counts = [[${counts}]];
-
     let colors = [];
     let size = categories.length;
-    for(let i = 0; i < size; i++){
+    for (let i = 0; i < size; i++) {
         if (i % 3 === 1) {
             colors.push("red");
         } else if (i % 3 === 2) {
@@ -36,9 +44,6 @@
             colors.push("green");
         }
     }
-    console.log(colors);
-
-
     new Chart(ctx, {
         type: 'bar',
         data: {
@@ -50,7 +55,52 @@
                 borderWidth: 3
             }]
         },
-        options: {}
+        options: {
+            plugins: {
+                legend: {
+                    labels: {
+                        font: {
+                            size: 20
+                        },
+                        boxWidth: 0
+                    }
+                }
+            }
+        }
+    });
+
+    new Chart(sc, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Продажи по датам',
+                data: sales,
+                backgroundColor: 'white',
+                borderColor: 'blue',
+                borderWidth: 5,
+                tension: 0.2
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    labels: {
+                        font: {
+                            size: 20
+                        },
+                        boxWidth: 0
+                    }
+                }
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        stepSize: 1
+                    }
+                }]
+            }
+        }
     });
 </script>
 </body>

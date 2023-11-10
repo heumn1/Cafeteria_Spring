@@ -13,6 +13,7 @@ import ru.heumn.Cafeteria.services.OrderService;
 import ru.heumn.Cafeteria.storage.PaymentMethod;
 import ru.heumn.Cafeteria.storage.ProductCategory;
 import ru.heumn.Cafeteria.storage.Role;
+import ru.heumn.Cafeteria.storage.StatusOrder;
 import ru.heumn.Cafeteria.storage.entities.OrderEntity;
 import ru.heumn.Cafeteria.storage.repository.OrderRepository;
 import ru.heumn.Cafeteria.storage.repository.ProductRepository;
@@ -20,12 +21,13 @@ import ru.heumn.Cafeteria.storage.repository.UserRepository;
 
 import java.security.Principal;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/order")
-@PreAuthorize("hasAuthority('SELLER_ROLE')")
 public class OrderController {
 
     @Autowired
@@ -46,23 +48,43 @@ public class OrderController {
     @Autowired
     ProductDtoFactory productDtoFactory;
 
-
     @GetMapping("/statistic")
+    @PreAuthorize("hasAuthority('ADMIN_ROLE')")
     public String statistic(Model model){
 
         List<String> categories;
-
         categories = Arrays.stream(ProductCategory.values()).map(productCategory -> productCategory.toString()).collect(Collectors.toList());
 
-        Map<ProductCategory, Integer> counts = new HashMap<>();
+        Map<LocalDate, Integer> sales = new  LinkedHashMap<>();
 
+        Map<String, Integer> counts = new LinkedHashMap<>();
         List<OrderEntity> orderEntities = orderRepository.findAll();
-
-        orderEntities.stream()
+        orderEntities
                 .forEach(orderEntity -> {
-                    orderEntity.getProducts().stream()
+
+                    try {
+                        LocalDate ld = LocalDate.ofInstant(orderEntity.getDateCreate(), ZoneOffset.systemDefault());
+
+                        Integer count = sales.get(ld);
+                        if(count == null)
+                        {
+                            count = 1;
+                        }
+                        else
+                        {
+                            count++;
+                        }
+
+                        sales.put(ld, count);
+                        }
+                    catch (Exception e)
+                    {
+                        System.out.println(e);
+                    }
+
+                    orderEntity.getProducts()
                             .forEach(product -> {
-                                Integer i = counts.get(product.getProductCategory());
+                                Integer i = counts.get(product.getProductCategory().toString());
                                 if(i == null)
                                 {
                                     i = 1;
@@ -71,25 +93,19 @@ public class OrderController {
                                 {
                                     i++;
                                 }
-                                counts.put(product.getProductCategory(), i);
-
+                                counts.put(product.getProductCategory().toString(), i);
                             });
                         });
 
-        //TODO ВЫВОДИТ ЛИШНИЙ СТОЛБИК ДУМАЮ МОЖНО ВЫВЕСТИ ЕМУ ОТДЕЛЬЕЫЙ ЛИСТ С ЧИСЛАМИ И ОК
-        List<Integer> list = new ArrayList<Integer>(counts.values());
-        for (Integer s : list) {
-            System.out.println(s);
-        }
 
-
+        model.addAttribute("sales", sales);
         model.addAttribute("categories", categories);
         model.addAttribute("counts", counts);
 
         return "statistic";
     }
 
-
+    @PreAuthorize("hasAuthority('SELLER_ROLE')")
     @GetMapping("/add")
     public String order(@ModelAttribute("order") OrderDto orderDto, Model model){
         products(model);
@@ -98,6 +114,7 @@ public class OrderController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasAuthority('SELLER_ROLE')")
     public String addOrder(@ModelAttribute("order") @Valid OrderDto orderDto, Principal principal, Model model){
 
         if(orderDto.getProducts() == null)
@@ -134,6 +151,7 @@ public class OrderController {
     }
 
     @GetMapping("/add/confirm/{id}")
+    @PreAuthorize("hasAuthority('SELLER_ROLE')")
     public String confirmPage(Model model, @PathVariable Long id, Principal principal){
 
         Optional<OrderEntity> orderEntity =  orderRepository.findById(id);
@@ -155,6 +173,7 @@ public class OrderController {
     }
 
     @PostMapping("/add/confirm/{id}")
+    @PreAuthorize("hasAuthority('SELLER_ROLE')")
     public String confirmOrder(@RequestParam("payment") PaymentMethod paymentMethod, @PathVariable Long id, Principal principal){
 
         Optional<OrderEntity> orderEntity =  orderRepository.findById(id);
@@ -164,6 +183,8 @@ public class OrderController {
             if(orderEntity.get().getSeller() == userRepository.findByLogin(principal.getName())
                     || userRepository.findByLogin(principal.getName()).getRoles().contains(Role.ADMIN_ROLE))
             {
+                orderEntity.get().setStatus(StatusOrder.ACCEPTED);
+
                 orderEntity.get().setPaymentMethod(paymentMethod);
                 orderRepository.save(orderEntity.get());
             }
@@ -172,6 +193,7 @@ public class OrderController {
     }
 
     @PostMapping("/add/delete/{id}")
+    @PreAuthorize("hasAuthority('SELLER_ROLE')")
     public String deleteOrder(@PathVariable Long id, Principal principal){
 
         Optional<OrderEntity> orderEntity =  orderRepository.findById(id);

@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import ru.heumn.Cafeteria.storage.PaymentMethod;
+import ru.heumn.Cafeteria.storage.StatusOrder;
 import ru.heumn.Cafeteria.storage.entities.ProductEntity;
 import ru.heumn.Cafeteria.storage.entities.UserEntity;
 
@@ -31,6 +32,8 @@ public class OrderDto {
     List<ProductEntity> products;
 
     UserEntity seller;
+
+    StatusOrder status;
 
     Double price;
 

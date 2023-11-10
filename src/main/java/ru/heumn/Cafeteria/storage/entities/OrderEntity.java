@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import ru.heumn.Cafeteria.storage.PaymentMethod;
+import ru.heumn.Cafeteria.storage.StatusOrder;
 
 import java.time.Instant;
 import java.util.List;
@@ -34,6 +35,10 @@ public class OrderEntity {
 
     @Column(name = "order_price")
     Double price;
+
+    @Column(name = "order_status")
+    @Enumerated(EnumType.STRING)
+    StatusOrder status;
 
     @Column(name = "payment_method")
     @Enumerated(EnumType.STRING)
