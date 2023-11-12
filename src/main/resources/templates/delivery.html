@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Кухня</title>
+    <title>Окно выдачи</title>
     <link rel="stylesheet" type="text/css" media="all"
           href="/css/index.css"/>
 </head>
@@ -14,8 +14,9 @@
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div th:each="el : ${orders}">
                 <h1 th:text="${el.numberOrder}"/>
-                    <label th:each="m : ${el.products}" style="margin-right:20px;" th:text="${m.key.productName.toString()}" th:if="${m.value != statusReady}" /><br/>
-                    <a th:each="n : ${el.products}" th:text="${n.value == statusCook} ? 'Позиция готова' : 'Начать готовку'" th:if="${n.value != statusReady}" th:class="${n.value == statusCook} ? 'btn btn-success' : 'btn btn-warning'" th:href="@{/cook/orders/{id}/{product}(id = ${el.numberOrder}, product = ${n.key.productName.toString()})}" style="margin-right:20px;"/>
+                <label>Позиции: </label>
+                <label th:each="m : ${el.products}" style="margin-right:20px;" th:text="${m.key.productName.toString()}"/><br/>
+                <a class="btn btn-primary" th:href="@{/delivery/confirm/{id}(id=${el.numberOrder})}">Заказ получен покупателем</a>
                 <hr/>
             </div>
         </main>

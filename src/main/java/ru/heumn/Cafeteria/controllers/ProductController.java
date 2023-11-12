@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 @Transactional
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping("/product")
+@PreAuthorize("hasAuthority('MANAGER_ROLE')")
 public class ProductController {
 
     ProductService productService;

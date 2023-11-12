@@ -1,6 +1,9 @@
 package ru.heumn.Cafeteria.controllers;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +26,7 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/cook")
 @PreAuthorize("hasAuthority('COOK_ROLE')")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CookController {
 
     @Autowired
@@ -33,8 +37,9 @@ public class CookController {
 
     @Autowired
     ProductService productService;
+
     @Autowired
-    ProductRepository productRepository;
+    private SimpMessagingTemplate template;
 
     @GetMapping("/orders")
     public String getOrders(Model model){

@@ -1,6 +1,8 @@
 package ru.heumn.Cafeteria.controllers;
 
 import jakarta.validation.Valid;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -13,7 +15,6 @@ import ru.heumn.Cafeteria.services.OrderService;
 import ru.heumn.Cafeteria.storage.PaymentMethod;
 import ru.heumn.Cafeteria.storage.ProductCategory;
 import ru.heumn.Cafeteria.storage.Role;
-import ru.heumn.Cafeteria.storage.StatusOrder;
 import ru.heumn.Cafeteria.storage.entities.OrderEntity;
 import ru.heumn.Cafeteria.storage.repository.OrderRepository;
 import ru.heumn.Cafeteria.storage.repository.ProductRepository;
@@ -28,6 +29,8 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/order")
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@PreAuthorize("hasAuthority('SELLER_ROLE')")
 public class OrderController {
 
     @Autowired

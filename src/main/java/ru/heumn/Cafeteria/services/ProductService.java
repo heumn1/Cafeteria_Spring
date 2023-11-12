@@ -4,11 +4,13 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ru.heumn.Cafeteria.dto.ProductDto;
 import ru.heumn.Cafeteria.factories.ProductDtoFactory;
+import ru.heumn.Cafeteria.storage.ChatMessage;
 import ru.heumn.Cafeteria.storage.StatusOrder;
 import ru.heumn.Cafeteria.storage.entities.ProductEntity;
 import ru.heumn.Cafeteria.storage.entities.TaskEntity;
@@ -33,9 +35,10 @@ public class ProductService {
     @Autowired
     TaskRepository taskRepository;
 
+    @Autowired
+    SimpMessagingTemplate template;
     @Value("${upload.path}")
     String path;
-
 
     public void addProduct(ProductDto productDto, MultipartFile file){
 
@@ -112,6 +115,7 @@ public class ProductService {
 
         for (Map.Entry<ProductEntity, StatusOrder> product : taskEntity.get().getProducts().entrySet()) {
             if (product.getValue() != StatusOrder.READY) {
+                allReady = false;
                 taskRepository.save(taskEntity.get());
                 break;
             } else {
@@ -121,14 +125,13 @@ public class ProductService {
 
         if(allReady)
         {
-            //taskRepository.delete(taskEntity.get());
+            ChatMessage chatMessage = new ChatMessage();
 
-            //ТУТ НЕ УДАЛЯТЬ А ПОСЫЛАТЬ НА ВЫДАЧУ (with js)
+            chatMessage.setType("Delivery");
+            chatMessage.setSender("Server");
+            chatMessage.setContent("Заказ готов");
 
-            //TODO НА ЗОНУ ВЫДАЧИ
+            template.convertAndSend("/topic/public",chatMessage);
         }
-
-
-
     }
 }

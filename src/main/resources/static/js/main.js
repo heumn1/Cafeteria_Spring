@@ -21,7 +21,20 @@ function onError(error) {
 }
 
 function onMessageReceived(payload) {
-    //TODO СДЕЛАТЬ НОРМ ДИНАМИКУ ЛОЛ
-    location.reload();
+
+    var message = JSON.parse(payload.body);
+
+    console.log(message.type);
+    console.log(location.pathname);
+
+
+    if(location.pathname === "/cook/orders" && message.type === "Cook")
+    {
+        location.reload();
+    }
+    if(location.pathname === "/delivery" && message.type === "Delivery")
+    {
+        location.reload();
+    }
 }
 

@@ -1,5 +1,7 @@
 package ru.heumn.Cafeteria.services;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderService {
     @Autowired
     OrderDtoFactory orderDtoFactory;
@@ -124,4 +127,13 @@ public class OrderService {
         template.convertAndSend("/topic/public",chatMessage);
     }
 
+    public void finishOrder(Integer id) {
+
+        TaskEntity taskEntity = taskRepository.findByNumberOrder(id);
+
+        if(taskEntity != null)
+        {
+            taskRepository.delete(taskEntity);
+        }
+    }
 }

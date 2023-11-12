@@ -1,6 +1,8 @@
 package ru.heumn.Cafeteria.controllers;
 
 import jakarta.validation.Valid;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import ru.heumn.Cafeteria.storage.Role;
 @Controller
 @RequestMapping("/users")
 @PreAuthorize("hasAuthority('ADMIN_ROLE')")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UsersController {
     @Autowired
     UserService userService;
