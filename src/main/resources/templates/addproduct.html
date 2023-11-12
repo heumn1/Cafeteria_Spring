@@ -14,7 +14,8 @@
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <form th:object="${product}" th:method="POST" class="form-group" enctype="multipart/form-data">
                     <h2>Добавление продукта</h2>
-                    <div class="form-label" style="color:red" th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}"></div>
+                    <div class="form-label" style="color:red" th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}"/>
+                    <div class="form-label" style="color:red" th:if="${errorName}" th:text="${errorName}"/>
                     <label class="col-md-4 control-label">Название</label>
                     <input class="form-control" type="text" th:field="*{productName}">
                     <label class="form-label">Описание</label>

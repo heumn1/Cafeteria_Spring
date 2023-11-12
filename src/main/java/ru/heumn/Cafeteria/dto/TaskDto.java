@@ -5,6 +5,7 @@ import lombok.experimental.FieldDefaults;
 import ru.heumn.Cafeteria.storage.StatusOrder;
 import ru.heumn.Cafeteria.storage.entities.ProductEntity;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Data
@@ -21,5 +22,5 @@ public class TaskDto {
 
     Integer numberOrder;
 
-    Map<ProductEntity, StatusOrder> products;
+    Map<ProductEntity, StatusOrder> products = new LinkedHashMap<>();
 }

@@ -3,7 +3,6 @@ package ru.heumn.Cafeteria.storage;
 public enum StatusOrder {
 
     ACCEPTED,
-
     COOK,
     READY,
     GIVEN;
@@ -14,7 +13,7 @@ public enum StatusOrder {
             case ACCEPTED -> "Принят";
             case COOK -> "Готовиться";
             case READY -> "Готов";
-            case GIVEN -> "Выдвн";
+            case GIVEN -> "Выдан";
         };
     }
 }

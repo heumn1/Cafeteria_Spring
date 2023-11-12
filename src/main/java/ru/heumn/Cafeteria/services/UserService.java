@@ -51,7 +51,7 @@ public class UserService implements UserDetailsService {
         List<UserEntity> userEntityList = userRepository.findAll();
         List<UserDto> userDtoList = new ArrayList<>();
 
-        userEntityList.stream()
+        userEntityList
                 .forEach(user -> userDtoList.add(userDtoFactory.makeUserDto(user)));
 
         return userDtoList;

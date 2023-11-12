@@ -5,7 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import ru.heumn.Cafeteria.storage.StatusOrder;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Entity
@@ -17,11 +17,12 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Table(name = "Task")
 public class TaskEntity {
 
     @ElementCollection
     @Enumerated(EnumType.STRING)
-    Map<ProductEntity, StatusOrder> products = new HashMap<>();
+    Map<ProductEntity, StatusOrder> products = new LinkedHashMap<>();
 
     @Column(name = "number_order")
     Integer numberOrder;

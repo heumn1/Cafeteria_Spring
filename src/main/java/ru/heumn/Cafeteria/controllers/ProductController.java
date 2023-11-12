@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.heumn.Cafeteria.dto.ProductDto;
 import ru.heumn.Cafeteria.services.ProductService;
 import ru.heumn.Cafeteria.storage.ProductCategory;
+import ru.heumn.Cafeteria.storage.repository.ProductRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 public class ProductController {
 
     ProductService productService;
+    ProductRepository productRepository;
 
     @GetMapping()
     public String allProducts(Model model){
@@ -54,8 +56,6 @@ public class ProductController {
 
         List<ProductCategory> categories = List.of(ProductCategory.values());
 
-
-
         model.addAttribute("categories", categories);
 
         return "addproduct";
@@ -64,6 +64,15 @@ public class ProductController {
     @PostMapping("/add")
     public String addProductPost(@ModelAttribute("product") @Valid ProductDto productDto,
                                  BindingResult bindingResult, @RequestParam(required = true) MultipartFile picture, Model model){
+
+        if(productRepository.findByProductName(productDto.getProductName()) != null)
+        {
+            model.addAttribute("errorName", "Ошибка, такое имя продукта уже существует");
+
+            List<ProductCategory> categories = List.of(ProductCategory.values());
+            model.addAttribute("categories", categories);
+            return "addproduct";
+        }
 
         if(bindingResult.hasErrors() || picture.isEmpty())
         {

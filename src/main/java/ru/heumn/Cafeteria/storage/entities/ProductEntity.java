@@ -21,7 +21,7 @@ public class ProductEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long id;
 
-    @Column(name = "product_name")
+    @Column(name = "product_name", unique = true)
     String productName;
 
     @Column(name = "product_cost")
