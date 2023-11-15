@@ -7,4 +7,5 @@ import ru.heumn.Cafeteria.storage.entities.TaskEntity;
 public interface TaskRepository extends JpaRepository<TaskEntity, Long> {
 
     TaskEntity findByNumberOrder(Integer id);
+
 }

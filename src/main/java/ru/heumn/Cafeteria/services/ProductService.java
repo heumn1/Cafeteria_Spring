@@ -19,12 +19,16 @@ import ru.heumn.Cafeteria.storage.entities.TaskEntity;
 import ru.heumn.Cafeteria.storage.repository.OrderRepository;
 import ru.heumn.Cafeteria.storage.repository.ProductRepository;
 import ru.heumn.Cafeteria.storage.repository.TaskRepository;
+import ru.heumn.Cafeteria.storage.repository.UserRepository;
 
+import java.awt.dnd.DropTargetEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.Principal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -38,6 +42,8 @@ public class ProductService {
     @Autowired
     TaskRepository taskRepository;
 
+    @Autowired
+    UserRepository userRepository;
     @Autowired
     OrderRepository orderRepository;
     @Autowired
@@ -112,18 +118,28 @@ public class ProductService {
         return productDtoList;
     }
 
-    public void confirmProduct(Integer numberOrder, String productName){
+    public void confirmProduct(Integer numberOrder, String productName, Principal principal){
         Optional<TaskEntity> taskEntity = Optional.of(taskRepository.findByNumberOrder(numberOrder));
 
         Map<ProductEntity, StatusOrder> products = taskEntity.get().getProducts();
+
         if(products.get(productRepository.findByProductName(productName)) == StatusOrder.COOK)
         {
             products.put(productRepository.findByProductName(productName), StatusOrder.READY);
         }
         else
         {
+            if(!checkThreeOrders(principal, 3))
+            {
+                return;
+            }
             products.put(productRepository.findByProductName(productName), StatusOrder.COOK);
 
+
+            Map<ProductEntity, Long> cooks = taskEntity.get().getCooks();
+            cooks.put(productRepository.findByProductName(productName), userRepository.findByLogin(principal.getName()).getId());
+
+            taskEntity.get().setCooks(cooks);
         }
         taskEntity.get().setProducts(products);
 
@@ -157,5 +173,26 @@ public class ProductService {
 
             template.convertAndSend("/topic/public",chatMessage);
         }
+    }
+
+    private Boolean checkThreeOrders(Principal principal, Integer maxOrders) {
+
+        Long id = userRepository.findByLogin(principal.getName()).getId();
+
+        final Integer[] count = {0};
+
+        List<TaskEntity> taskEntities = taskRepository.findAll();
+
+        taskEntities
+                .forEach(taskEntity -> {
+                    for (Map.Entry<ProductEntity, Long> cook : taskEntity.getCooks().entrySet()) {
+                        if(cook.getValue().equals(id))
+                        {
+                            count[0]++;
+                        }
+                    }
+                });
+
+        return count[0] < maxOrders;
     }
 }

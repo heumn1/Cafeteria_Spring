@@ -13,16 +13,18 @@ public class TaskDtoFactory {
     public TaskDto makeDtoTask(TaskEntity taskEntity) {
         return TaskDto.builder()
                 .id(taskEntity.getId())
+                .cooks(taskEntity.getCooks())
                 .numberOrder(taskEntity.getNumberOrder())
                 .products(taskEntity.getProducts())
                 .build();
     }
 
-    public TaskEntity makeTaskEntity(TaskEntity taskEntity) {
+    public TaskEntity makeTaskEntity(TaskDto taskDto) {
         return TaskEntity.builder()
-                .id(taskEntity.getId())
-                .numberOrder(taskEntity.getNumberOrder())
-                .products(taskEntity.getProducts())
+                .id(taskDto.getId())
+                .cooks(taskDto.getCooks())
+                .numberOrder(taskDto.getNumberOrder())
+                .products(taskDto.getProducts())
                 .build();
     }
 

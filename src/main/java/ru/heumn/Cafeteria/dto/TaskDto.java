@@ -25,6 +25,6 @@ public class TaskDto {
 
     Map<ProductEntity, StatusOrder> products = new LinkedHashMap<>();
 
-    Map<ProductEntity, UserEntity> cooks = new LinkedHashMap<>();
+    Map<ProductEntity, Long> cooks = new LinkedHashMap<>();
 
 }

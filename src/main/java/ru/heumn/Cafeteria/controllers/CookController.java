@@ -14,14 +14,14 @@ import ru.heumn.Cafeteria.services.ProductService;
 import ru.heumn.Cafeteria.storage.StatusOrder;
 import ru.heumn.Cafeteria.storage.entities.ProductEntity;
 import ru.heumn.Cafeteria.storage.entities.TaskEntity;
+import ru.heumn.Cafeteria.storage.entities.UserEntity;
 import ru.heumn.Cafeteria.storage.repository.ProductRepository;
 import ru.heumn.Cafeteria.storage.repository.TaskRepository;
+import ru.heumn.Cafeteria.storage.repository.UserRepository;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/cook")
@@ -36,6 +36,9 @@ public class CookController {
     TaskDtoFactory taskDtoFactory;
 
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     ProductService productService;
 
     @Autowired
@@ -47,17 +50,14 @@ public class CookController {
         model.addAttribute("statusCook", StatusOrder.COOK);
         model.addAttribute("statusReady", StatusOrder.READY);
 
-        List<TaskDto> taskDtoList = new ArrayList<>();
+        List<TaskDto> taskDtoList;
 
-        taskDtoFactory.makeListDtoTask(taskRepository.findAll())
-                        .forEach(taskDto -> {
-                                    for (Map.Entry<ProductEntity, StatusOrder> product : taskDto.getProducts().entrySet()) {
-                                        if (product.getValue() != StatusOrder.READY) {
-                                            taskDtoList.add(taskDto);
-                                            break;
-                                        }
-                                    }
-                                });
+        taskDtoList = taskDtoFactory.makeListDtoTask(taskRepository.findAll());
+
+        taskDtoList = taskDtoList.stream()
+                .filter(taskDto -> {
+                    return taskDto.getProducts().containsValue(StatusOrder.GIVEN);
+                }).collect(Collectors.toList());
 
         model.addAttribute("orders", taskDtoList);
 
@@ -67,13 +67,34 @@ public class CookController {
     @GetMapping("/orders/{id}/{product}")
     public String getCookProduct(@PathVariable Integer id, @PathVariable String product, Principal principal){
 
-        productService.confirmProduct(id,product);
+        productService.confirmProduct(id,product,principal);
 
         return "redirect:/cook/orders";
     }
 
     @GetMapping("/orders/personal")
-    public String getCookPersonal(){
+    public String getCookPersonal(Model model, Principal principal){
+
+        List<TaskDto> taskDtoList = taskDtoFactory.makeListDtoTask(taskRepository.findAll());
+
+        final Long[] count = {0L};
+
+        Map<Long,  Map.Entry<Integer, ProductEntity>> productEntityHashMap = new LinkedHashMap<>();
+
+        taskDtoList
+                .forEach(taskDto -> {
+                    for (Map.Entry<ProductEntity, Long> cook : taskDto.getCooks().entrySet())
+                    {
+                       if(cook.getValue().equals(userRepository.findByLogin(principal.getName()).getId())
+                               && taskDto.getProducts().get(cook.getKey()) != StatusOrder.READY)
+                       {
+                           count[0]++;
+                           productEntityHashMap.put(count[0],new AbstractMap.SimpleEntry<>(taskDto.getNumberOrder(), cook.getKey()));
+                       }
+                    }
+                });
+
+        model.addAttribute("orders", productEntityHashMap);
 
         return "orderPersonal";
     }

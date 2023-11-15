@@ -8,25 +8,28 @@
                 <h1>Меню</h1>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="/logout"><img width="40" height="40" src="/images/person-dash.svg"/> Выйти из аккаунта</a></br>
+                <a class="nav-link active" href="/logout"><img style="margin-right: 20px" width="40" height="40" src="/images/person-dash.svg"/> Выйти из аккаунта</a></br>
             </li>
             <li sec:authorize="hasAuthority('ADMIN_ROLE')"  class="nav-item">
-                <a class="nav-link active" href="/users"><img width="40" height="40" src="/images/people-fill.svg"/>Пользователи</a></br>
+                <a class="nav-link active" href="/users"><img style="margin-right: 20px" width="40" height="40" src="/images/people-fill.svg"/>Пользователи</a></br>
             </li>
             <li sec:authorize="hasAuthority('ADMIN_ROLE')"  class="nav-item">
-                <a class="nav-link active" href="/order/statistic"><img width="40" height="40" src="/images/graph-up-arrow.svg"/>Статистика по продажам</a></br>
+                <a class="nav-link active" href="/order/statistic"><img style="margin-right: 20px" width="40" height="40" src="/images/graph-up-arrow.svg"/>Статистика по продажам</a></br>
             </li>
             <li sec:authorize="hasAuthority('ADMIN_ROLE')"  class="nav-item">
-                <a class="nav-link active" href="/product"><img width="40" height="40" src="/images/boxes.svg"/>Список продуктов</a></br>
+                <a class="nav-link active" href="/product"><img style="margin-right: 20px" width="40" height="40" src="/images/boxes.svg"/>Список продуктов</a></br>
             </li>
             <li sec:authorize="hasAuthority('SELLER_ROLE')"  class="nav-item">
-                <a class="nav-link active" href="/order/add"><img width="40" height="40" src="/images/cash-coin.svg"/>Оформить заказ</a></br>
+                <a class="nav-link active" href="/order/add"><img style="margin-right: 20px" width="40" height="40" src="/images/cash-coin.svg"/>Оформить заказ</a></br>
             </li>
             <li sec:authorize="hasAuthority('COOK_ROLE')"  class="nav-item">
-                <a class="nav-link active" href="/cook/orders"><img width="40" height="40" src="/images/basket.svg"/>Начать готовку</a></br>
+                <a class="nav-link active" href="/cook/orders"><img style="margin-right: 20px" width="40" height="40" src="/images/basket.svg"/>Начать готовку</a></br>
             </li>
             <li sec:authorize="hasAuthority('SELLER_ROLE')"  class="nav-item">
-                <a class="nav-link active" href="/delivery"><img width="40" height="40" src="/images/card-checklist.svg"/>Выдача заказов</a></br>
+                <a class="nav-link active" href="/delivery"><img style="margin-right: 20px" width="40" height="40" src="/images/card-checklist.svg"/>Выдача заказов</a></br>
+            </li>
+            <li sec:authorize="hasAuthority('COOK_ROLE')"  class="nav-item">
+                <a class="nav-link active" href="/cook/orders/personal"><img style="margin-right: 20px" width="40" height="40" src="/images/cloud-fog-fill.svg"/>Ваша готовка</a></br>
             </li>
         </ul>
     </div>

@@ -13,9 +13,11 @@
         <men th:replace="~{pattern/menu :: nav}"/>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div th:each="el : ${orders}">
-                <h1 th:text="${el.numberOrder}"/>
-                <label th:each="m : ${el.products}" style="margin-right:20px;" th:text="${m.key.productName.toString()}" th:if="${m.value != statusReady}" /><br/>
-                <a th:each="n : ${el.products}" th:text="${n.value == statusCook} ? 'Позиция готова' : 'Начать готовку'" th:if="${n.value != statusReady}" th:class="${n.value == statusCook} ? 'btn btn-success' : 'btn btn-warning'" th:href="@{/cook/orders/{id}/{product}(id = ${el.numberOrder}, product = ${n.key.productName.toString()})}" style="margin-right:20px;"/>
+                <hr/>
+
+                <label th:text="${el}"></label>
+                <label th:text="${el.value.value}"/><br/>
+                <a class="btn btn-success" th:href="@{/cook/orders/{id}/{product}(id = ${el.value.key}, product = ${el.value.value})}" >Позиция готова</a>
                 <hr/>
             </div>
         </main>
