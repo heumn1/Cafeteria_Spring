@@ -99,6 +99,7 @@ public class OrderService {
 
                 taskRepository.save(TaskEntity.builder()
                         .id(null)
+                        .mainOrder(orderEntity.get().getId())
                         .numberOrder(numberOfOrder)
                         .products(products)
                         .build());
@@ -133,6 +134,16 @@ public class OrderService {
 
         if(taskEntity != null)
         {
+            if(taskEntity.getMainOrder() != null) {
+                Optional<OrderEntity> orderEntity = orderRepository.findById(taskEntity.getMainOrder());
+
+                if (orderEntity.isPresent()) {
+                    System.out.println(orderEntity.get());
+                    orderEntity.get().setStatus(StatusOrder.GIVEN);
+                    orderRepository.save(orderEntity.get());
+                }
+            }
+
             taskRepository.delete(taskEntity);
         }
     }

@@ -17,6 +17,28 @@
                     <a th:if="${settings == null}" th:href="@{/product/settings}" class="btn btn-primary">Удалить</a>
                     <a th:href="@{/product/add}" class="btn btn-primary">Добавить</a>
                     <a th:if="${settings}" th:href="@{/product}" class="btn btn-primary">Вернуться</a>
+                    <br/>
+                    <form th:if="${settings}" method="get" th:action="@{/product/delete/sort}">
+                        <select name="productCategory">
+                            <option value="SALADS">Салат</option>
+                            <option value="SOUPS">Суп</option>
+                            <option value="HOT_DRINKS">Горячий напиток</option>
+                            <option value="MAIN_DISHES">Основное блюдо</option>
+                            <option value="DESSERTS">Десерт</option>
+                        </select>
+                        <button type="submit">Сортировать</button>
+                    </form>
+                    <form th:if="${noSort}" method="get" th:action="@{/product/sort}">
+                        <select name="productCategory">
+                            <option value="SALADS">Салат</option>
+                            <option value="SOUPS">Суп</option>
+                            <option value="HOT_DRINKS">Горячий напиток</option>
+                            <option value="MAIN_DISHES">Основное блюдо</option>
+                            <option value="DESSERTS">Десерт</option>
+                        </select>
+                        <button type="submit">Сортировать</button>
+                    </form>
+
                     <table class="table">
                         <thead>
                         <tr>
@@ -39,7 +61,7 @@
                             <td th:text="${el.cost}"/>
                             <td th:if="${settings}">
                                 <form th:method="POST" th:action="@{/product/delete/{id}(id = ${el.id})}">
-                                    <input class="btn btn-danger" type="submit" value="Удалить"/>
+                                    <input class="btn btn-danger" type="submit" onclick="return confirm('Удалить продукт?')" value="Удалить"/>
                                 </form>
                             </td>
                         </tr>

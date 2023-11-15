@@ -80,9 +80,8 @@ public class OrderController {
 
                         sales.put(ld, count);
                         }
-                    catch (Exception e)
+                    catch (Exception ignore)
                     {
-                        System.out.println(e);
                     }
 
                     orderEntity.getProducts()
@@ -100,6 +99,8 @@ public class OrderController {
                             });
                         });
 
+
+        model.addAttribute("orders", orderDtoFactory.makeOrderDtoList(orderRepository.findAll()));
 
         model.addAttribute("sales", sales);
         model.addAttribute("categories", categories);

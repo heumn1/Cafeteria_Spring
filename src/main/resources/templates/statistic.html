@@ -17,6 +17,27 @@
                     <section class="col-20 col-sm-10 col-md-10">
                         <canvas style="margin-bottom:200px;" id="myChart"></canvas>
                         <canvas style="margin-bottom:200px;" id="salesChart"></canvas>
+                        <h1>Продажи:</h1>
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Дата/Время создания</th>
+                                <th scope="col">Способ оплаты</th>
+                                <th scope="col">Стоимость</th>
+                                <th scope="col">Позиции</th>
+                            </tr>
+                            </thead>
+                            <tbody th:each="el : ${orders}">
+                            <tr>
+                                <td th:text="${el.id}"/>
+                                <td th:text="${el.dateCreate}"/>
+                                <td th:text="${el.paymentMethod}"/>
+                                <td th:text="${el.price}"/>
+                                <td th:text="${el.products}"/>
+                            </tr>
+                            </tbody>
+                        </table>
                     </section>
                 </section>
             </section>
@@ -49,7 +70,7 @@
         data: {
             labels: [],
             datasets: [{
-                label: 'Продажи',
+                label: 'Продажи по категориям',
                 data: counts,
                 backgroundColor: colors,
                 borderWidth: 3

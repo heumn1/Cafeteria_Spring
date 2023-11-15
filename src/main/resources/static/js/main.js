@@ -24,10 +24,6 @@ function onMessageReceived(payload) {
 
     var message = JSON.parse(payload.body);
 
-    console.log(message.type);
-    console.log(location.pathname);
-
-
     if(location.pathname === "/cook/orders" && message.type === "Cook")
     {
         location.reload();

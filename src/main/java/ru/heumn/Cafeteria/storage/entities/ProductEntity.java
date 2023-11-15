@@ -10,7 +10,6 @@ import ru.heumn.Cafeteria.storage.ProductCategory;
 @Getter
 @Setter
 @Builder
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -39,4 +38,9 @@ public class ProductEntity {
     @Column(name = "product_category")
     @Enumerated(EnumType.STRING)
     ProductCategory productCategory;
+
+    @Override
+    public String toString() {
+        return productName;
+    }
 }

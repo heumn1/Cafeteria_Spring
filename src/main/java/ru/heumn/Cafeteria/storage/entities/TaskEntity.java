@@ -24,8 +24,14 @@ public class TaskEntity {
     @Enumerated(EnumType.STRING)
     Map<ProductEntity, StatusOrder> products = new LinkedHashMap<>();
 
+    @ElementCollection
+    Map<ProductEntity, Long> cooks = new LinkedHashMap<>();
+
     @Column(name = "number_order")
     Integer numberOrder;
+
+    @Column(name = "main_order")
+    Long mainOrder;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

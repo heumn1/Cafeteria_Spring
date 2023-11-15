@@ -72,4 +72,10 @@ public class CookController {
         return "redirect:/cook/orders";
     }
 
+    @GetMapping("/orders/personal")
+    public String getCookPersonal(){
+
+        return "orderPersonal";
+    }
+
 }

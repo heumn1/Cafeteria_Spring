@@ -24,14 +24,12 @@ public class SecutityConfiguration {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    //Фильтр http
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http)  throws Exception {
         http
                 .csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
                                 .requestMatchers("/css/*", "/images/**", "/login")
-
                                 .permitAll()
                                 .anyRequest().authenticated()
                 )

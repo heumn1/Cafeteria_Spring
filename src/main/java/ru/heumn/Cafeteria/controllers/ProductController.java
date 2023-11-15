@@ -35,7 +35,31 @@ public class ProductController {
     @GetMapping()
     public String allProducts(Model model){
 
+        model.addAttribute("noSort", "сортировка");
+
         List<ProductDto> productDtoList = productService.getListProduct();
+        model.addAttribute("productList", productDtoList);
+
+        return "products";
+    }
+
+    @GetMapping("/sort")
+    public String sortedProducts(@RequestParam ProductCategory productCategory, Model model){
+
+        model.addAttribute("noSort", "сортировка");
+
+        List<ProductDto> productDtoList = productService.getListProductSorted(productCategory);
+        model.addAttribute("productList", productDtoList);
+
+        return "products";
+    }
+
+    @GetMapping("/delete/sort")
+    public String sortedDeleteProducts(@RequestParam ProductCategory productCategory, Model model){
+
+        model.addAttribute("settings", "Настройки");
+
+        List<ProductDto> productDtoList = productService.getListProductSorted(productCategory);
         model.addAttribute("productList", productDtoList);
 
         return "products";

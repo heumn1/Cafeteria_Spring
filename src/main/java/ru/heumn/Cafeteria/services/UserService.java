@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.heumn.Cafeteria.dto.UserDto;
 import ru.heumn.Cafeteria.factories.UserDtoFactory;
@@ -27,10 +28,22 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
+
+        Optional<UserEntity> user = Optional.of(userRepository.findByLogin(name));
+
+        if(user.isPresent())
+        {
+            user.get().setLastLogin(Instant.now());
+            userRepository.save(user.get());
+        }
+
         return userRepository.findByLogin(name);
     }
 
     public Boolean addUser(UserDto userDto){
+
+        String encodedPassword = new BCryptPasswordEncoder().encode(userDto.getPassword());
+        userDto.setPassword(encodedPassword);
 
         UserEntity user = userDtoFactory.makeUserEntity(userDto);
 

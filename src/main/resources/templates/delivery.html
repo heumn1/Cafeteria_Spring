@@ -16,7 +16,7 @@
                 <h1 th:text="${el.numberOrder}"/>
                 <label>Позиции: </label>
                 <label th:each="m : ${el.products}" style="margin-right:20px;" th:text="${m.key.productName.toString()}"/><br/>
-                <a class="btn btn-primary" th:href="@{/delivery/confirm/{id}(id=${el.numberOrder})}">Заказ получен покупателем</a>
+                <a class="btn btn-primary" th:href="@{/delivery/confirm/{id}(id=${el.numberOrder})}" onclick="return confirm('Заказ получен?')">Заказ получен покупателем</a>
                 <hr/>
             </div>
         </main>

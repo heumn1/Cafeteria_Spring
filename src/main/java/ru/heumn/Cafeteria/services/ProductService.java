@@ -11,9 +11,12 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.heumn.Cafeteria.dto.ProductDto;
 import ru.heumn.Cafeteria.factories.ProductDtoFactory;
 import ru.heumn.Cafeteria.storage.ChatMessage;
+import ru.heumn.Cafeteria.storage.ProductCategory;
 import ru.heumn.Cafeteria.storage.StatusOrder;
+import ru.heumn.Cafeteria.storage.entities.OrderEntity;
 import ru.heumn.Cafeteria.storage.entities.ProductEntity;
 import ru.heumn.Cafeteria.storage.entities.TaskEntity;
+import ru.heumn.Cafeteria.storage.repository.OrderRepository;
 import ru.heumn.Cafeteria.storage.repository.ProductRepository;
 import ru.heumn.Cafeteria.storage.repository.TaskRepository;
 
@@ -35,6 +38,8 @@ public class ProductService {
     @Autowired
     TaskRepository taskRepository;
 
+    @Autowired
+    OrderRepository orderRepository;
     @Autowired
     SimpMessagingTemplate template;
     @Value("${upload.path}")
@@ -96,6 +101,17 @@ public class ProductService {
         return productDtoList;
     }
 
+    public List<ProductDto> getListProductSorted(ProductCategory productCategory){
+
+        List<ProductDto> productDtoList = new ArrayList<>();
+
+        productRepository.findAll().stream()
+                .filter(productEntity -> (productEntity.getActive() == true && productEntity.getProductCategory() == productCategory))
+                .forEach(product -> productDtoList.add(productDtoFactory.makeDtoProduct(product)));
+
+        return productDtoList;
+    }
+
     public void confirmProduct(Integer numberOrder, String productName){
         Optional<TaskEntity> taskEntity = Optional.of(taskRepository.findByNumberOrder(numberOrder));
 
@@ -125,6 +141,14 @@ public class ProductService {
 
         if(allReady)
         {
+                Optional<OrderEntity> orderEntity = orderRepository.findById(taskEntity.get().getMainOrder());
+
+                if(orderEntity.isPresent())
+                {
+                    orderEntity.get().setStatus(StatusOrder.READY);
+                    orderRepository.save(orderEntity.get());
+                }
+
             ChatMessage chatMessage = new ChatMessage();
 
             chatMessage.setType("Delivery");
