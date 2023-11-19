@@ -24,17 +24,15 @@
                     <label class="col-md-4 control-label">Цена</label>
                     <input class="form-control" type="text" th:field="*{cost}">
                     <div class="d-block my-3">
-                        <div>
-                            <select th:field="*{productCategory}" >
+                        <label class="form-label">Категория продукта</label>
+                        <select class="form-select" th:field="*{productCategory}" >
                                 <option th:each="el : ${categories}"  th:value="${el.name()}" th:text="${el.toString()}"></option>
-                            </select>
-                        </div>
+                        </select>
                     </div>
                     <div class="form-label" style="color:red"  th:if="${errorPicture}" th:text="${errorPicture}"></div>
                     <label class="form-label">Фотография:</label>
                     <input type="file" class="form-control form-control-lg" name="picture" accept="image/*"/><br/>
                     <button class="btn btn-primary btn-lg btn-block" onclick="return confirm('Добавить продукт?')" type="submit">Добавить</button>
-
                 </form>
             </main>
         </ma>

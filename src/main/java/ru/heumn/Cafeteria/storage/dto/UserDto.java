@@ -1,4 +1,4 @@
-package ru.heumn.Cafeteria.dto;
+package ru.heumn.Cafeteria.storage.dto;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import ru.heumn.Cafeteria.storage.Role;
+import ru.heumn.Cafeteria.storage.enums.Role;
 
 import java.time.Instant;
 import java.util.Set;

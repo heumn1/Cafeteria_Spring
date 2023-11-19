@@ -1,4 +1,4 @@
-package ru.heumn.Cafeteria.storage;
+package ru.heumn.Cafeteria.storage.enums;
 
 public enum PaymentMethod {
     CARD,

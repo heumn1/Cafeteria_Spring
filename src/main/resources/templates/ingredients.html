@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ингредиенты</title>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="/css/index.css" th:href="@{/css/index.css}"/>
+</head>
+<body>
+<div th:insert="~{pattern/header :: header}"/>
+<div class="container-fluid">
+    <ma class="row">
+        <men th:replace="~{pattern/menu :: nav}"/>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div th:if="${ingredients}">
+                <a th:if="${settings == null}" th:href="@{/ingredients/settings}" class="btn btn-primary">Настройки</a>
+                <a th:if="${settings == null}" th:href="@{/ingredients/add}" class="btn btn-primary">Добавить</a>
+                <a th:if="${settings}"  th:href="@{/ingredients}" class="btn btn-primary">Вернуться</a>
+                <br/><br/>
+                <div class="alert alert-danger" th:if="${errorSubtract}" th:text="${errorSubtract}"></div>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Название</th>
+                        <th scope="col">Количество</th>
+                        <th th:if="${settings}" scope="col">Отнять от имеющего количества</th>
+                        <th th:if="${settings}" scope="col">Установить количество</th>
+                        <th th:if="${settings}" scope="col">Удалить</th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="el : ${ingredients}">
+                    <tr>
+                        <td th:text="${el.name}"/>
+                        <td th:text="${el.quantity} + ' ' +  ${el.numeralSystem.toString()}"/>
+                        <td th:if="${settings}">
+                            <form th:method="POST" th:action="@{/ingredients/settings/subtract}">
+                                <input style="display: none" name="id" th:value="${el.id}" />
+                                <input type="number" class="form-control" name="count" value="0"/>
+                                <button type="submit">Вычесть</button>
+                            </form>
+                        </td>
+                        <td th:if="${settings}">
+                            <form th:method="POST" th:action="@{/ingredients/settings/set}">
+                                <input style="display: none" name="id" th:value="${el.id}" />
+                                <input type="number" class="form-control" name="count" value="0"/>
+                                <button onclick="return confirm('Установить данные количество?')" type="submit">Установить</button>
+                            </form>
+                        </td>
+                        <td th:if="${settings}">
+                            <form th:method="POST" th:action="@{/ingredients/delete/{id}(id = ${el.id})}">
+                                <input class="btn btn-danger" type="submit"
+                                       onclick="return confirm('Удалить ингредиент?')" value="Удалить"/>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <form th:if="${ingredient}" th:object="${ingredient}" th:action="@{/ingredients/add}" th:method="POST">
+                <h1>Добавить ингредиент</h1>
+                <label class="col-md-4 control-label" text="Название"></label>
+                <label class="form-label" style="color:red" th:if="${errorName}" th:text="${errorName}"></label>
+                <label class="form-label" style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></label>
+                <input class="form-control" th:field="*{name}"/>
+                <br/>
+                <label class="col-md-4 control-label" text="Система счета"></label>
+                <select class="form-select" th:field="*{numeralSystem}" name="productCategory">
+                    <option th:each="el : ${systems}" th:value="${el.name()}"
+                            th:text="${el.toString()}"></option>
+                </select>
+                <br/>
+                <button class="btn btn-primary btn-lg btn-block" onclick="return confirm('Добавить ингредиент?')"
+                        type="submit">Добавить
+                </button>
+            </form>
+        </main>
+    </ma>
+</div>
+<div th:insert="~{pattern/footer :: footer}"/>
+</body>
+</html>

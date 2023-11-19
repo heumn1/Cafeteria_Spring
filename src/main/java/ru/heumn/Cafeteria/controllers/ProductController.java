@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,14 +11,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.heumn.Cafeteria.dto.ProductDto;
+import ru.heumn.Cafeteria.storage.dto.ProductDto;
 import ru.heumn.Cafeteria.services.ProductService;
-import ru.heumn.Cafeteria.storage.ProductCategory;
+import ru.heumn.Cafeteria.storage.enums.ProductCategory;
 import ru.heumn.Cafeteria.storage.repository.ProductRepository;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor

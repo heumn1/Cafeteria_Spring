@@ -3,8 +3,8 @@ package ru.heumn.Cafeteria.storage.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import ru.heumn.Cafeteria.storage.PaymentMethod;
-import ru.heumn.Cafeteria.storage.StatusOrder;
+import ru.heumn.Cafeteria.storage.enums.PaymentMethod;
+import ru.heumn.Cafeteria.storage.enums.StatusOrder;
 
 import java.time.Instant;
 import java.util.List;

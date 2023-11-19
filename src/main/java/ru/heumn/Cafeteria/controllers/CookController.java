@@ -8,14 +8,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.heumn.Cafeteria.dto.TaskDto;
+import ru.heumn.Cafeteria.storage.dto.TaskDto;
 import ru.heumn.Cafeteria.factories.TaskDtoFactory;
 import ru.heumn.Cafeteria.services.ProductService;
-import ru.heumn.Cafeteria.storage.StatusOrder;
+import ru.heumn.Cafeteria.storage.enums.StatusOrder;
 import ru.heumn.Cafeteria.storage.entities.ProductEntity;
-import ru.heumn.Cafeteria.storage.entities.TaskEntity;
-import ru.heumn.Cafeteria.storage.entities.UserEntity;
-import ru.heumn.Cafeteria.storage.repository.ProductRepository;
 import ru.heumn.Cafeteria.storage.repository.TaskRepository;
 import ru.heumn.Cafeteria.storage.repository.UserRepository;
 

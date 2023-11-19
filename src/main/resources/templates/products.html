@@ -17,26 +17,26 @@
                     <a th:if="${settings == null}" th:href="@{/product/settings}" class="btn btn-primary">Удалить</a>
                     <a th:href="@{/product/add}" class="btn btn-primary">Добавить</a>
                     <a th:if="${settings}" th:href="@{/product}" class="btn btn-primary">Вернуться</a>
-                    <br/>
+                    <br/><br/>
                     <form th:if="${settings}" method="get" th:action="@{/product/delete/sort}">
-                        <select name="productCategory">
+                        <select class="form-select" name="productCategory">
                             <option value="SALADS">Салат</option>
                             <option value="SOUPS">Суп</option>
                             <option value="HOT_DRINKS">Горячий напиток</option>
                             <option value="MAIN_DISHES">Основное блюдо</option>
                             <option value="DESSERTS">Десерт</option>
                         </select>
-                        <button type="submit">Сортировать</button>
+                        <button class="btn btn-primary" type="submit">Сортировать</button>
                     </form>
                     <form th:if="${noSort}" method="get" th:action="@{/product/sort}">
-                        <select name="productCategory">
+                        <select class="form-select" name="productCategory">
                             <option value="SALADS">Салат</option>
                             <option value="SOUPS">Суп</option>
                             <option value="HOT_DRINKS">Горячий напиток</option>
                             <option value="MAIN_DISHES">Основное блюдо</option>
                             <option value="DESSERTS">Десерт</option>
                         </select>
-                        <button type="submit">Сортировать</button>
+                        <button class="btn btn-primary" type="submit">Сортировать</button>
                     </form>
 
                     <table class="table">
@@ -46,7 +46,7 @@
                             <th scope="col">Название</th>
                             <th scope="col">Категория</th>
                             <th scope="col">Описание</th>
-                            <th scope="col">Цена</th>
+                            <th scope="col">Цена (Руб.)</th>
                             <th th:if="${settings}" scope="col">Удалить</th>
                         </tr>
                         </thead>

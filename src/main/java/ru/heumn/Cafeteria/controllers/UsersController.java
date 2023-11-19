@@ -9,9 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.heumn.Cafeteria.dto.UserDto;
+import ru.heumn.Cafeteria.storage.dto.UserDto;
 import ru.heumn.Cafeteria.services.UserService;
-import ru.heumn.Cafeteria.storage.Role;
+import ru.heumn.Cafeteria.storage.enums.Role;
 
 @Controller
 @RequestMapping("/users")
@@ -69,7 +69,6 @@ public class UsersController {
     @PostMapping("/add")
     public String addUser(@ModelAttribute("user") @Valid UserDto userDto, BindingResult bindingResult, Model model){
 
-        System.out.println(userDto);
 
         if(bindingResult.hasErrors())
         {
@@ -83,6 +82,7 @@ public class UsersController {
         else
         {
             model.addAttribute("errorUserExists", "Пользователь уже существует");
+            userDto.setPassword(null);
             return "addUser";
         }
     }

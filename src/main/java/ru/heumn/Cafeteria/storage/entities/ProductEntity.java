@@ -4,7 +4,7 @@ package ru.heumn.Cafeteria.storage.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import ru.heumn.Cafeteria.storage.ProductCategory;
+import ru.heumn.Cafeteria.storage.enums.ProductCategory;
 
 @Entity
 @Getter

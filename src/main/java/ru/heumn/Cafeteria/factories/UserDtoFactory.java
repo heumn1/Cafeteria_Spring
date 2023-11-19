@@ -2,7 +2,7 @@ package ru.heumn.Cafeteria.factories;
 
 
 import org.springframework.stereotype.Component;
-import ru.heumn.Cafeteria.dto.UserDto;
+import ru.heumn.Cafeteria.storage.dto.UserDto;
 import ru.heumn.Cafeteria.storage.entities.UserEntity;
 
 @Component

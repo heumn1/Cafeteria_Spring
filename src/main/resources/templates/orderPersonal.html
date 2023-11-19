@@ -13,10 +13,7 @@
         <men th:replace="~{pattern/menu :: nav}"/>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div th:each="el : ${orders}">
-                <hr/>
-
-                <label th:text="${el}"></label>
-                <label th:text="${el.value.value}"/><br/>
+                <h2 th:text="${el.value.value}"/><br/>
                 <a class="btn btn-success" th:href="@{/cook/orders/{id}/{product}(id = ${el.value.key}, product = ${el.value.value})}" >Позиция готова</a>
                 <hr/>
             </div>

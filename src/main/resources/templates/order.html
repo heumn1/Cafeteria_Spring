@@ -14,8 +14,8 @@
         <main th:if="${addOrder}" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <form th:object="${order}" th:method="POST" class="form-group">
                 <h1>Заказ клиента</h1>
-                <H1 class="alert" style="color: red" th:if="${productsError}" th:text="${productsError}"></H1>
-                <H1 class="alert" style="color: red" th:if="${priceError}" th:text="${priceError}"></H1>
+                <div class="alert alert-danger" th:if="${productsError}" th:text="${productsError}"></div>
+                <div class="alert alert-danger" th:if="${priceError}" th:text="${priceError}"></div>
                 <h2>Напитки</h2>
                 <div th:each="el : ${HOT_DRINKS}">
                     <input class="form-check-input" type="checkbox" th:field="*{products}" th:value="${el.id}"/>
@@ -41,10 +41,10 @@
                     <input class="form-check-input" type="checkbox" th:field="*{products}" th:value="${el.id}"/>
                     <label th:text="${el.productName}"/>
                 </div>
+                </br>
                 <button class="btn btn-primary btn-lg btn-block" type="submit">Добавить</button>
             </form>
         </main>
-
         <main th:if="${confirmOrder}" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <form th:method="POST" class="form-group" th:action="@{/order/add/confirm/{id}(id = ${confirmOrder.id})}">
                 <div class="modal-body">
@@ -61,14 +61,12 @@
                             <h1 class="font-weight-bold">Всего</h1>
                             <h1 class="font-weight-bold theme-color" th:text="${confirmOrder.price}"/>
                         </div>
-
                         <div class="d-block my-3">
                             <div class="custom-control custom-radio" th:each="asd : ${paymentMethods}" >
                                 <input name="payment" th:value="${asd.name()}" type="radio" class="custom-control-input" checked="" required="">
                                 <label class="custom-control-label" th:text="${asd.toString()}"></label>
                             </div>
                         </div>
-
                         <div class="text-center mt-5">
                             <button class="btn btn-primary btn-lg btn-block" type="submit">Подтверждение оплаты</button>
                         </div>

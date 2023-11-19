@@ -6,9 +6,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.heumn.Cafeteria.dto.UserDto;
+import ru.heumn.Cafeteria.storage.dto.UserDto;
 import ru.heumn.Cafeteria.factories.UserDtoFactory;
-import ru.heumn.Cafeteria.storage.Role;
+import ru.heumn.Cafeteria.storage.enums.Role;
 import ru.heumn.Cafeteria.storage.entities.UserEntity;
 import ru.heumn.Cafeteria.storage.repository.UserRepository;
 

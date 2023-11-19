@@ -8,11 +8,11 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import ru.heumn.Cafeteria.dto.ProductDto;
+import ru.heumn.Cafeteria.storage.dto.ProductDto;
 import ru.heumn.Cafeteria.factories.ProductDtoFactory;
 import ru.heumn.Cafeteria.storage.ChatMessage;
-import ru.heumn.Cafeteria.storage.ProductCategory;
-import ru.heumn.Cafeteria.storage.StatusOrder;
+import ru.heumn.Cafeteria.storage.enums.ProductCategory;
+import ru.heumn.Cafeteria.storage.enums.StatusOrder;
 import ru.heumn.Cafeteria.storage.entities.OrderEntity;
 import ru.heumn.Cafeteria.storage.entities.ProductEntity;
 import ru.heumn.Cafeteria.storage.entities.TaskEntity;
@@ -21,14 +21,12 @@ import ru.heumn.Cafeteria.storage.repository.ProductRepository;
 import ru.heumn.Cafeteria.storage.repository.TaskRepository;
 import ru.heumn.Cafeteria.storage.repository.UserRepository;
 
-import java.awt.dnd.DropTargetEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.Principal;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)

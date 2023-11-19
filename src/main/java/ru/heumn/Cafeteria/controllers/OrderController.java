@@ -8,13 +8,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.heumn.Cafeteria.dto.OrderDto;
+import ru.heumn.Cafeteria.storage.dto.OrderDto;
 import ru.heumn.Cafeteria.factories.OrderDtoFactory;
 import ru.heumn.Cafeteria.factories.ProductDtoFactory;
 import ru.heumn.Cafeteria.services.OrderService;
-import ru.heumn.Cafeteria.storage.PaymentMethod;
-import ru.heumn.Cafeteria.storage.ProductCategory;
-import ru.heumn.Cafeteria.storage.Role;
+import ru.heumn.Cafeteria.storage.enums.PaymentMethod;
+import ru.heumn.Cafeteria.storage.enums.ProductCategory;
+import ru.heumn.Cafeteria.storage.enums.Role;
 import ru.heumn.Cafeteria.storage.entities.OrderEntity;
 import ru.heumn.Cafeteria.storage.repository.OrderRepository;
 import ru.heumn.Cafeteria.storage.repository.ProductRepository;
@@ -121,7 +121,7 @@ public class OrderController {
     @PreAuthorize("hasAuthority('SELLER_ROLE')")
     public String addOrder(@ModelAttribute("order") @Valid OrderDto orderDto, Principal principal, Model model){
 
-        if(orderDto.getProducts() == null)
+        if(orderDto.getProducts().isEmpty())
         {
             products(model);
             model.addAttribute("productsError", "Ошибка! не выбраны позиции");

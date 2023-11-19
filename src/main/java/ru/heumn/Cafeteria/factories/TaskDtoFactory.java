@@ -1,7 +1,7 @@
 package ru.heumn.Cafeteria.factories;
 
 import org.springframework.stereotype.Component;
-import ru.heumn.Cafeteria.dto.TaskDto;
+import ru.heumn.Cafeteria.storage.dto.TaskDto;
 import ru.heumn.Cafeteria.storage.entities.TaskEntity;
 
 import java.util.List;

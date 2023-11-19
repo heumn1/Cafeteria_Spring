@@ -1,10 +1,9 @@
-package ru.heumn.Cafeteria.dto;
+package ru.heumn.Cafeteria.storage.dto;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import ru.heumn.Cafeteria.storage.StatusOrder;
+import ru.heumn.Cafeteria.storage.enums.StatusOrder;
 import ru.heumn.Cafeteria.storage.entities.ProductEntity;
-import ru.heumn.Cafeteria.storage.entities.UserEntity;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

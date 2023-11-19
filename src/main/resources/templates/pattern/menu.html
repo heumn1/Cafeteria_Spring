@@ -31,6 +31,9 @@
             <li sec:authorize="hasAuthority('COOK_ROLE')"  class="nav-item">
                 <a class="nav-link active" href="/cook/orders/personal"><img style="margin-right: 20px" width="40" height="40" src="/images/cloud-fog-fill.svg"/>Ваша готовка</a></br>
             </li>
+            <li sec:authorize="hasAuthority('MANAGER_ROLE')"  class="nav-item">
+                <a class="nav-link active" href="/ingredients"><img style="margin-right: 20px" width="40" height="40" src="/images/box-seam.svg"/>Склад</a></br>
+            </li>
         </ul>
     </div>
 </nav>
